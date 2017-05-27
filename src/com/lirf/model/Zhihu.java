@@ -1,4 +1,6 @@
-package crawlercore;
+package com.lirf.model;
+
+import com.lirf.crawlercore.Spider;
 
 import java.util.ArrayList;
 import java.util.List;

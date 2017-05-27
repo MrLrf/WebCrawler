@@ -1,26 +1,23 @@
-package test;
+package com.lirf.test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 抓取知乎上多条问题和问题链接
  * Created by codingBoy on 16/10/20.
  */
-public class Main3
+public class SpaceMessage
 {
-
     public  static String sendGet(String url)
     {
 
         BufferedReader reader=null;
 
-        String result="";
+        String sourceCode="";
 
         try {
             URL realUrl = new URL(url);
@@ -30,10 +27,10 @@ public class Main3
 
             String line;
             while ((line = reader.readLine()) != null) {
-                result+=line;
+                sourceCode+=line;
             }
 
-            return result;
+            return sourceCode;
         }catch (Exception e)
         {
             throw  new RuntimeException("get方法请求错误"+e);
@@ -47,9 +44,8 @@ public class Main3
         }
     }
 
-    public static ArrayList<String> regexString(String targetStr, String patternStr)
+    public static String regexString(String targetStr, String patternStr)
     {
-        ArrayList<String> lists=new ArrayList<>();
         // 定义一个样式模板，此中使用正则表达式，括号中是要抓的内容
         // 相当于埋好了陷阱匹配的地方就会掉下去
         Pattern pattern=Pattern.compile(patternStr);
@@ -59,28 +55,29 @@ public class Main3
 
 
 
-        while (matcher.find())
+        if (matcher.find())
         {
-            String result=matcher.group(1);
-            lists.add(result);
-
+            return matcher.group(1);
         }
-        return lists;
 
+        return "没有找到相匹配的字符";
     }
 
     public static void main(String[] args)
     {
-        ArrayList<String> list;
+        String url="https://user.qzone.qq.com/634873475/334";
 
-        String url="https://www.zhihu.com/explore/recommendations";
-        String result=sendGet(url);
+        String sourceCode=sendGet(url);
 
-        list=regexString(result,"post-link.+?>(.+?)<");
-        System.out.println(list);
+        System.out.println(sourceCode);
+
+        long currentTime=System.currentTimeMillis();
+        String regexStr="cont.+?<td>(.+?)<img";
 
 
-
-
+        String result=regexString(sourceCode,regexStr);
+        long endTime=System.currentTimeMillis();
+        System.out.println(result);
+        System.out.println(endTime-currentTime);
     }
 }

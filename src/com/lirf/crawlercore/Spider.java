@@ -1,6 +1,7 @@
-package crawlercore;
+package com.lirf.crawlercore;
 
-import org.junit.jupiter.api.Test;
+import com.lirf.model.DblpConference;
+import com.lirf.model.Zhihu;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class Spider {
         return result;
     }
 
+    //知乎爬虫
     public static ArrayList<Zhihu> regexString (String result) {
         ArrayList<Zhihu> lists = new ArrayList<Zhihu>();
 
@@ -57,9 +59,23 @@ public class Spider {
         return lists;
     }
 
-    @Test
-    public void getResult () {
-        System.out.println(sendGet("https://www.zhihu.com/explore/recommendations"));
-    }
+    public static ArrayList<DblpConference> regexConference (String name, String result) {
+        ArrayList<DblpConference> lists = new ArrayList<DblpConference>();
 
+        //定义正则表达式,括号中是爬取得内容
+        Pattern namePattern = Pattern.compile("<span class=\"title\" itemprop=\"name\">(.+?)</span>");
+        Matcher nameMatcher = namePattern.matcher(result);
+
+        Pattern urlPattern = Pattern.compile("<a href=\"(http[^><\"]+?\\.html)\">\\Wcontents\\W</a>");
+        Matcher urlMatcher = urlPattern.matcher(result);
+        while (nameMatcher.find()) {
+            String url  = "";
+            if (urlMatcher.find()) url = urlMatcher.group(1);
+            String content = nameMatcher.group(1);
+            DblpConference conference = new DblpConference(name, content, url);
+            lists.add(conference);
+        }
+
+        return lists;
+    }
 }
