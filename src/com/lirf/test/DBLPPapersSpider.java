@@ -2,14 +2,17 @@ package com.lirf.test;
 
 import com.lirf.crawlercore.Spider;
 import com.lirf.model.DblpConference;
+import com.lirf.model.Paper;
 import com.lirf.mybatis.mapper.DblpConferenceMapper;
+import com.lirf.mybatis.mapper.DblpPaperMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类的描述
@@ -18,19 +21,33 @@ import java.util.List;
  * @Date 2017/5/27 14:11
  */
 public class DBLPPapersSpider {
-    public static boolean conferenceSpider (List<String> urls) throws Exception {
+    public static boolean conferenceSpider (Map<String, String> input) throws Exception {
         //mybatis的配置文件
         String resource = "dbconfig.xml";
         InputStream is = MybatisTest.class.getClassLoader().getResourceAsStream(resource);
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(is);
         SqlSession session = sessionFactory.openSession();
         DblpConferenceMapper dblpConferenceMapper = session.getMapper(DblpConferenceMapper.class);
-        for (String url : urls) {
-            String source= Spider.sendGet(url);
-            List<DblpConference> conferences = Spider.regexConference("sigmod", source);
+        DblpPaperMapper dblpPaperMapper = session.getMapper(DblpPaperMapper.class);
 
+        for (String key : input.keySet()) {
+            String source= Spider.sendGet(input.get(key));
+            System.out.println("Begin---------");
+            List<DblpConference> conferences = Spider.regexConference(key, source);
+
+            int i = 0;
             for (DblpConference dblpConference : conferences) {
                 int result = dblpConferenceMapper.insertConference(dblpConference);
+                System.out.println("conference:" + i++);
+                int j = 0;
+                for (Paper paper : dblpConference.getPapers()) {
+                    int result1 = dblpPaperMapper.insertPaper(paper);
+                    System.out.println("paper:" + j++);
+                    if (result1 < 1) {
+                        session.close();
+                        return false;
+                    }
+                }
                 if (result < 1) {
                     session.close();
                     return false;
@@ -43,9 +60,10 @@ public class DBLPPapersSpider {
     }
 
     public static void main(String[] args) throws Exception {
-        //TODO:应该传一个map对应会议名和url
-        List<String> urls = new ArrayList<String>();
-        urls.add("http://dblp.uni-trier.de/db/conf/recsys/");
-        urls.add("");
+        Map<String, String > input = new HashMap<String, String>();
+        input.put("recsys", "http://dblp.uni-trier.de/db/conf/recsys/");
+        input.put("sigmod", "http://dblp.uni-trier.de/db/conf/sigmod/");
+
+        System.out.println(conferenceSpider(input));
     }
 }

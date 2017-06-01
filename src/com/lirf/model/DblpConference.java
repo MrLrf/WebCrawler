@@ -1,5 +1,7 @@
 package com.lirf.model;
 
+import com.lirf.crawlercore.Spider;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +31,38 @@ public class DblpConference {
         if (dateMatcher.find()) this.conference_date = dateMatcher.group(1);
         this.content_url = content_url;
         this.papers = new ArrayList<Paper>();
+        getPapersFromUrl();
+    }
+
+    public void getPapersFromUrl () {
+        //TODO:必须将每个论文的所有信息作为整体爬取
+
+        ArrayList<Paper> papers = new ArrayList<Paper>();
+
+        String source = Spider.sendGet(this.content_url);
+
+        Pattern namePattern = Pattern.compile("<span class=\"title\" itemprop=\"name\">(.+?)</span>");
+        Matcher nameMatcher = namePattern.matcher(source);
+        Pattern pagePattern = Pattern.compile("<span itemprop=\"pagination\">(\\d+-\\d+)</span>");
+        Matcher pageMatcher = pagePattern.matcher(source);
+        Pattern urlPattern = Pattern.compile("<a href=\"(http://[^><\"]+?)\" itemprop=\"url\"><img");
+        Matcher urlMatcher = urlPattern.matcher(source);
+
+        int i = 0;
+        while (nameMatcher.find()) {
+            String name = nameMatcher.group(1);
+            String page = "";
+            String url = "";
+            if (pageMatcher.find()) page = pageMatcher.group(1);
+            if (urlMatcher.find()) {
+                System.out.println("come this");
+                url = urlMatcher.group(1);
+            }
+            papers.add(new Paper(this.conference_id, name, page, url));
+            System.out.println("Create paper:" + i++ + "\nname:" + name + ";\nurl:" + url);
+        }
+
+        this.papers = papers;
     }
 
     @Override

@@ -19,5 +19,6 @@
         <mapper resource="com/lirf/mybatis/mapping/ZhihuQuestionMapper.xml"/>
         <mapper resource="com/lirf/mybatis/mapping/ZhihuAnswerMapper.xml"/>
         <mapper resource="com/lirf/mybatis/mapping/DblpConferenceMapper.xml"/>
+        <mapper resource="com/lirf/mybatis/mapping/DblpPaperMapper.xml"/>
     </mappers>
 </configuration>
