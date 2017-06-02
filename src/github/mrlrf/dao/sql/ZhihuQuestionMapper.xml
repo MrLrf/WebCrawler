@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="github.mrlrf.dao.interfaces.ZhihuQuestionDao">
+    <!--* 加载 && 筛选-->
+    <select id="loadZhQuestion" resultType="map">
+        SELECT * FROM zhihu_question
+    </select>
+</mapper>
