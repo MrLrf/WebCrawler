@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController {
     @RequestMapping("/index")
     public String index() {
-        return "/admin/index";
+        return "/index";
     }
 
     @RequestMapping("/test")
