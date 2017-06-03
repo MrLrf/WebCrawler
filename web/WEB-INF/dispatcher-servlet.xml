@@ -42,7 +42,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     <!-- 开启事务管理 -->
-    <tx:annotation-driven transaction-manager="transaction"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!--mybatis    end-->
 
     <!--ViewResolver 视图解析器-->

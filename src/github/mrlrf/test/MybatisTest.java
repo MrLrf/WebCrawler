@@ -1,8 +1,8 @@
 package github.mrlrf.test;
 
 import github.mrlrf.mybatis.mapper.ZhihuAnswerMapper;
-import github.mrlrf.mybatis.model.ZhihuAnswer;
-import github.mrlrf.mybatis.model.ZhihuQuestion;
+import github.mrlrf.model.ZhihuAnswer;
+import github.mrlrf.model.ZhihuQuestion;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * 类的描述
  *
@@ -32,9 +29,9 @@ public class TestMyBatis {
 
     @Test
     public void test1() {
-        List<Map<String, String>> result = zhihuQuestionService.loadZhQuestion();
+        //List<ZhihuQuestion> result = zhihuQuestionService.loadZhQuestion();
         // System.out.println(user.getUserName());
         // logger.info("值："+user.getUserName());
-        logger.info(result);
+        //logger.info(result);
     }
 }

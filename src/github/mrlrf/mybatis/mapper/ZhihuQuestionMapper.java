@@ -1,6 +1,6 @@
 package github.mrlrf.mybatis.mapper;
 
-import github.mrlrf.mybatis.model.ZhihuQuestion;
+import github.mrlrf.model.ZhihuQuestion;
 import java.util.List;
 
 /**

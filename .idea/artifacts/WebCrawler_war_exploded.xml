@@ -15,6 +15,7 @@
           <element id="library" level="project" name="misc" />
           <element id="library" level="project" name="tomact" />
           <element id="library" level="project" name="jackson" />
+          <element id="library" level="module" name="JUnit4" module-name="WebCrawler" />
         </element>
       </element>
     </root>

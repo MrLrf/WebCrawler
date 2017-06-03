@@ -9,8 +9,13 @@
 <html>
     <head>
         <title>$Title$</title>
+        <script type="text/javascript" src="<%=request.getContextPath()%>/asset/js/jquery.min.js"></script>
     </head>
     <body>
         <a href="/test.form">hello world</a>
+        <h1 id="title"></h1>
     </body>
+    <script>
+        $("#title").html("${title}");
+    </script>
 </html>

@@ -2,11 +2,11 @@ package github.mrlrf.Services.impls;
 
 import github.mrlrf.Services.interfaces.ZhihuQuestionService;
 import github.mrlrf.dao.interfaces.ZhihuQuestionDao;
+import github.mrlrf.model.ZhihuQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 类的描述
@@ -20,7 +20,13 @@ public class ZhihuQuestionServiceImpl implements ZhihuQuestionService {
     private ZhihuQuestionDao zhihuQuestionDao;
 
     @Override
-    public List<Map<String, String>> loadZhQuestion() {
+    public List<ZhihuQuestion> loadZhQuestion() {
+        //return zhihuQuestionDao.loadZhQuestion();
         return zhihuQuestionDao.loadZhQuestion();
     }
+    //
+    //@Override
+    //public int insertZhQuestion(ZhihuQuestion zhihuQuestion) {
+    //    return zhihuQuestionDao.insertZhQuestion(zhihuQuestion);
+    //}
 }

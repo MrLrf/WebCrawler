@@ -1,5 +1,6 @@
 package github.mrlrf.dao.interfaces;
 
+import github.mrlrf.model.ZhihuQuestion;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,6 @@ import java.util.Map;
 @Repository
 public interface ZhihuQuestionDao {
     List<Map<String, String>> loadZhQuestion();
+
+    int insertZhQuestion(ZhihuQuestion zhihuQuestion);
 }

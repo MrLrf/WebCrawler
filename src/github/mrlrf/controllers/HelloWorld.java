@@ -1,9 +1,14 @@
 package github.mrlrf.controllers;
 
 import github.mrlrf.Services.interfaces.ZhihuQuestionService;
+import github.mrlrf.model.ZhihuQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 类的描述
@@ -17,8 +22,12 @@ public class HelloWorld {
     private ZhihuQuestionService zhihuQuestionService;
 
     @RequestMapping("/helloworld")
-    public String hello() {
-        System.out.println(zhihuQuestionService.loadZhQuestion());
+    public String hello(HttpServletRequest request, Model model) {
+        List<ZhihuQuestion> questions = zhihuQuestionService.loadZhQuestion();
+        for (ZhihuQuestion zhihuQuestion : questions) {
+            System.out.println(zhihuQuestion.getQuestion_title());
+        }
+        model.addAttribute("title", questions.get(0).getQuestion_title());
         return "/admin/index";
     }
 }

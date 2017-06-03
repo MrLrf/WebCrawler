@@ -21,4 +21,14 @@ public class PageController {
     public String test() {
         return "/admin/test";
     }
+
+    @RequestMapping("/index2")
+    public String index2() {
+        return "/index2";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "/login";
+    }
 }
