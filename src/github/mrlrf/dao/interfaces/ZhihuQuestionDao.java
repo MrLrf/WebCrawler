@@ -4,7 +4,6 @@ import github.mrlrf.model.ZhihuQuestion;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 类的描述
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 @Repository
 public interface ZhihuQuestionDao {
-    List<Map<String, String>> loadZhQuestion();
+    List<ZhihuQuestion> loadZhQuestion();
 
-    int insertZhQuestion(ZhihuQuestion zhihuQuestion);
+    //int insertZhQuestion(ZhihuQuestion zhihuQuestion);
 }
