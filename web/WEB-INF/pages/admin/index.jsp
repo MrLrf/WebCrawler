@@ -16,6 +16,6 @@
         <h1 id="title"></h1>
     </body>
     <script>
-        $("#title").html("${title}");
+        $("#title").html("${name}");
     </script>
 </html>

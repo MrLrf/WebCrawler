@@ -1,7 +1,7 @@
 package github.mrlrf.controllers;
 
-import github.mrlrf.Services.interfaces.ZhihuQuestionService;
-import github.mrlrf.model.ZhihuQuestion;
+import github.mrlrf.Services.interfaces.DblpConferenceService;
+import github.mrlrf.model.DblpConference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +19,15 @@ import java.util.List;
 @Controller
 public class HelloWorld {
     @Autowired
-    private ZhihuQuestionService zhihuQuestionService;
+    private DblpConferenceService dblpConferenceService;
 
     @RequestMapping("/helloworld")
     public String hello(HttpServletRequest request, Model model) {
-        List<ZhihuQuestion> questions = zhihuQuestionService.loadZhQuestion();
-        for (ZhihuQuestion zhihuQuestion : questions) {
-            System.out.println(zhihuQuestion.getQuestion_title());
+        List<DblpConference> conferences = dblpConferenceService.getConference();
+        for (DblpConference dblpConference : conferences) {
+            System.out.println(dblpConference.getConference_name());
         }
-        model.addAttribute("title", questions.get(0).getQuestion_title());
+        model.addAttribute("name", conferences.get(0).getConference_name());
         return "/admin/index";
     }
 }

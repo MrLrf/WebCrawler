@@ -72,8 +72,8 @@ public class Spider {
             String url  = "";
             if (urlMatcher.find()) url = urlMatcher.group(1);
             String content = nameMatcher.group(1);
-            DblpConference conference = new DblpConference(name, content, url);
-            lists.add(conference);
+            //DblpConference conference = new DblpConference(name, content, url);
+            //lists.add(conference);
         }
 
         return lists;

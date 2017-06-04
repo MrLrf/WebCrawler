@@ -3,8 +3,8 @@
 <!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
 例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
  -->
-<mapper namespace="com.lirf.mybatis.mapper.DblpConferenceMapper">
-    <resultMap id="questionMap" type="com.lirf.model.DblpConference">
+<mapper namespace="github.mrlrf.dao.interfaces.DblpConferenceDao">
+    <resultMap id="questionMap" type="github.mrlrf.model.DblpConference">
         <id property="conference_id" column="conference_id  " javaType="String"></id>
         <result property="conference_name" column="conference_name" javaType="String"></result>
         <result property="conference_date" column="conference_date" javaType="String"></result>
@@ -23,7 +23,7 @@
         select * from dblp_conference
     </select>
 
-    <insert id="insertConference" parameterType="com.lirf.model.DblpConference">
+    <insert id="insertConference" parameterType="github.mrlrf.model.DblpConference">
         INSERT into dblp_conference (`conference_id`,`conference_name`,`conference_content`,`conference_date`,`content_url`)
         VALUES (#{conference_id},#{conference_name},#{conference_content},#{conference_date},#{content_url})
     </insert>
