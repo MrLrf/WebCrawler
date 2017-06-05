@@ -27,7 +27,7 @@ public class HelloWorld {
         for (DblpConference dblpConference : conferences) {
             System.out.println(dblpConference.getConference_name());
         }
-        model.addAttribute("name", conferences.get(0).getConference_name());
+        //model.addAttribute("name", conferences.get(0).getConference_name());
         return "/admin/index";
     }
 }
