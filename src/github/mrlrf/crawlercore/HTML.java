@@ -22,6 +22,10 @@ import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.BrowserCompatSpecFactory;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import java.io.BufferedWriter;
@@ -178,11 +182,89 @@ public class HTML {
         }
     }
 
+    public String parse(String html) {
+        String s = "";
+        Document doc = Jsoup.parse(html);
+        Elements userNames = doc.select("dt[class].face > a");
+        Elements userids = doc.select("span > a[action-data]");
+        Elements dates = doc.select("a[date]");
+        Elements tweetids = doc.select("dl[mid]");
+        Elements tweets = doc.select("p > em");
+        Elements forwardNums = doc.select("a:contains(转发)");
+        Elements commentNums = doc.select("a:contains(评论)");
+        for(Element userName : userNames) {
+            String attr = userName.attr("title");
+            s += "<userName> " + attr + " </userName>";
+        }
+        for(Element userid : userids) {
+            String attr = userid.attr("action-data");
+            attr = attr.substring(attr.indexOf("uid="));
+            Pattern p = Pattern.compile("[0-9]+");
+            Matcher m = p.matcher(attr);
+            if(m.find()) {
+                attr = m.group();
+            }
+            s += "<userid> " + attr + " </userid>";
+        }
+        for(Element date : dates) {
+            String attr = date.text();
+            s += "<date> " + attr + " </date>";
+        }
+        for(Element tweetid : tweetids) {
+            String attr = tweetid.attr("mid");
+            s += "<tweetid> " + attr + " </tweetid>";
+        }
+        for(Element tweet : tweets) {
+            String attr = tweet.text();
+            s += "<tweetSentence> " + attr + " </tweetSentence>";
+        }
+        for(Element forwardNum : forwardNums) {
+            String attr = forwardNum.text();
+            if(attr.equals("转发")) {
+                attr = "0";
+            }
+            else {
+                if(!attr.contains("转发(")) {
+                    attr = "0";
+                }
+                else {
+                    attr = attr.substring(attr.indexOf("转发(")+3, attr.indexOf(")"));
+                }
+            }
+            System.out.println(attr);
+            s += "<forwardNum> " + attr + " </forwardNum>";
+        }
+        for(Element commentNum : commentNums) {
+            String attr = commentNum.text();
+            if(attr.equals("评论")) {
+                attr = "0";
+            }
+            else {
+                if(!attr.contains("评论(")) {
+                    attr = "0";
+                }
+                else {
+                    attr = attr.substring(attr.indexOf("评论(")+3, attr.indexOf(""));
+                }
+            }
+            System.out.println(attr);
+            s += "<commentNum> " + attr + " </commentNum>";
+        }
+        //System.out.println(s);
+        return s;
+    }
+
+
     @Test
     public void sendGet() throws IOException {
         String url = "http://s.weibo.com/weibo/苹果手机&nodup=1&page=50";
+        //String url = "http://t.163.com/tag/苹果手机";
         String[] htmls = getHTML(url);
-        System.out.println(htmls[0]);
-        System.out.println(htmls[1]);
+        writeHTML2txt(htmls[1], 1);
+
+        System.out.println(parse(htmls[1]));
+
+        //System.out.println(htmls[0]);
+        //System.out.println(htmls[1]);
     }
 }

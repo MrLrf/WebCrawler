@@ -7,6 +7,8 @@
       <root url="jar://$PROJECT_DIR$/lib/misc/pagehelper-4.1.6.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/misc/jedis-2.9.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/misc/log4j-1.2.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/misc/jsoup_2.9.2-0.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/misc/jsoup-1.10.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
