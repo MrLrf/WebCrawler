@@ -1,6 +1,6 @@
 package github.mrlrf.dao.interfaces;
 
-import github.mrlrf.model.DblpConference;
+import github.mrlrf.model.Paper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.List;
  * @Date 2017/5/27 16:16
  */
 @Repository
-public interface DblpConferenceDao {
+public interface PaperDao {
 
-    List<DblpConference> getConference();
+    List<Paper> getPaper();
 
-    int insertConference(DblpConference dblpConference);
+    int insertPaper(Paper paper);
 }
