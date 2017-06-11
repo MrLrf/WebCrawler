@@ -15,6 +15,9 @@ import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.BrowserCompatSpecFactory;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,7 +35,7 @@ import java.util.regex.Pattern;
  * @Date 2017/6/9 21:46
  */
 public class Weibo {
-    private String getHTML(String url) throws URISyntaxException, ClientProtocolException, IOException {
+    public static String getHTML(String url) throws URISyntaxException, ClientProtocolException, IOException {
         //采用用户自定义cookie策略,不显示cookie rejected的报错
         CookieSpecProvider cookieSpecProvider = new CookieSpecProvider(){
             public CookieSpec create(HttpContext context){
@@ -72,18 +75,6 @@ public class Weibo {
         return html;
     }
 
-    private boolean isExistHTML(String html) throws InterruptedException {
-        boolean isExist = false;
-        Pattern pNoResult = Pattern.compile("\\\\u6ca1\\\\u6709\\\\u627e\\\\u5230\\\\u76f8"
-                + "\\\\u5173\\\\u7684\\\\u5fae\\\\u535a\\\\u5462\\\\uff0c\\\\u6362\\\\u4e2a"
-                + "\\\\u5173\\\\u952e\\\\u8bcd\\\\u8bd5\\\\u5427\\\\uff01"); //没有找到相关的微博呢，换个关键词试试吧！（html页面上的信息）
-        Matcher mNoResult = pNoResult.matcher(html);
-        if(!mNoResult.find()) {
-            isExist = true;
-        }
-        return isExist;
-    }
-
     private void writeWeibo2txt(String html, String savePath) throws IOException {
         File htmltxt = new File(savePath); //新建一个txt文件用于存放爬取的结果信息
         FileWriter fw = new FileWriter(htmltxt);
@@ -100,11 +91,27 @@ public class Weibo {
         bw.close();
     }
 
+    public static String unicodeToCh(String s) {
+        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+        Matcher matcher = pattern.matcher(s);
+        char ch;
+        while (matcher.find()) {
+            ch = (char) Integer.parseInt(matcher.group(2), 16);
+            s = s.replace(matcher.group(1), ch + "");
+        }
+        return s;
+    }
+
     public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
 
-        String s = Spider.sendGet("http://s.weibo.com/weibo/苹果手机&nodup=1&page=50");
+        String s = Spider.sendGet("http://s.weibo.com/weibo/%25E8%258B%25B9%25E6%259E%259C%25E6%2589%258B%25E6%259C%25BA?topnav=1&wvr=6&b=1");
+        s = unicodeToCh(s);
 
-        System.out.println(s);
+        Document doc = Jsoup.parse(s);
+        Elements searchKey = doc.select("em");
+        System.out.println(searchKey);
+
+        //System.out.println(s);
         //String savePath = "d:/weibo/html.txt"; //输出到txt文件的存放路径
         //Weibo crawler = new Weibo();
         //crawler.writeWeibo2txt(s, savePath);

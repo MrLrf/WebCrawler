@@ -1,27 +1,11 @@
 package github.mrlrf.crawlercore;
 
+import github.mrlrf.utils.HttpClientUtil;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.cookie.*;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import org.apache.http.impl.cookie.BestMatchSpecFactory;
-import org.apache.http.impl.cookie.BrowserCompatSpec;
-import org.apache.http.impl.cookie.BrowserCompatSpecFactory;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,7 +16,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,98 +26,6 @@ import java.util.regex.Pattern;
  * @Date 2017/6/5 17:37
  */
 public class HTML {
-    /**默认方法 */
-    public String[] getHTML(String url) throws ClientProtocolException, IOException {
-        String[] html = new String[2];
-        html[1] = "null";
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(5000)   //socket超时
-                .setConnectTimeout(5000)   //connect超时
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setDefaultRequestConfig(requestConfig)
-                .build();
-        HttpGet httpGet = new HttpGet(url);
-        try {
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            html[0] = String.valueOf(response.getStatusLine().getStatusCode());
-            html[1] = EntityUtils.toString(response.getEntity(), "utf-8");
-            //System.out.println(html);
-        } catch (IOException e) {
-            System.out.println("----------Connection timeout--------");
-        }
-        return html;
-    }
-
-    /**cookie方法的getHTMl() 设置cookie策略,防止cookie rejected问题,拒绝写入cookie     --重载,3参数:url, hostName, port */
-    public String getHTML(String url, String hostName, int port) throws URISyntaxException, ClientProtocolException, IOException {
-        //采用用户自定义的cookie策略
-        HttpHost proxy = new HttpHost(hostName, port);
-        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-        CookieSpecProvider cookieSpecProvider = new CookieSpecProvider() {
-            public CookieSpec create(HttpContext context) {
-                return new BrowserCompatSpec() {
-                    @Override
-                    public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
-                        //Oh, I am easy...
-                    }
-                };
-            }
-        };
-        Registry<CookieSpecProvider> r = RegistryBuilder
-                .<CookieSpecProvider> create()
-                .register(CookieSpecs.BEST_MATCH, new BestMatchSpecFactory())
-                .register(CookieSpecs.BROWSER_COMPATIBILITY, new BrowserCompatSpecFactory())
-                .register("easy", cookieSpecProvider)
-                .build();
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setCookieSpec("easy")
-                .setSocketTimeout(5000) //socket超时
-                .setConnectTimeout(5000) //connect超时
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setDefaultCookieSpecRegistry(r)
-                .setRoutePlanner(routePlanner)
-                .build();
-        HttpGet httpGet = new HttpGet(url);
-        httpGet.setConfig(requestConfig);
-        String html = "null"; //用于验证是否正常取到html
-        try {
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            html = EntityUtils.toString(response.getEntity(), "utf-8");
-        } catch (IOException e) {
-            System.out.println("----Connection timeout----");
-        }
-        return html;
-    }
-
-    /**proxy代理IP方法 */
-    public String getHTMLbyProxy(String targetUrl, String hostName, int port) throws ClientProtocolException, IOException {
-        HttpHost proxy = new HttpHost(hostName, port);
-        String html = "null";
-        DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(5000) //socket超时
-                .setConnectTimeout(5000) //connect超时
-                .build();
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setRoutePlanner(routePlanner)
-                .setDefaultRequestConfig(requestConfig)
-                .build();
-        HttpGet httpGet = new HttpGet(targetUrl);
-        try {
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if(statusCode == HttpStatus.SC_OK) { //状态码200: OK
-                html = EntityUtils.toString(response.getEntity(), "gb2312");
-            }
-            response.close();
-            //System.out.println(html); //打印返回的html
-        } catch (IOException e) {
-            System.out.println("----Connection timeout----");
-        }
-        return html;
-    }
 
     private boolean isExistHTML(String html) throws InterruptedException {
         boolean isExist = false;
@@ -259,10 +150,10 @@ public class HTML {
     public void sendGet() throws IOException {
         String url = "http://s.weibo.com/weibo/苹果手机&nodup=1&page=50";
         //String url = "http://t.163.com/tag/苹果手机";
-        String[] htmls = getHTML(url);
-        writeHTML2txt(htmls[1], 1);
+        String html = HttpClientUtil.getHTML(url);
+        writeHTML2txt(html, 1);
 
-        System.out.println(parse(htmls[1]));
+        System.out.println(parse(html));
 
         //System.out.println(htmls[0]);
         //System.out.println(htmls[1]);
