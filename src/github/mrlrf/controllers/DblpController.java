@@ -5,7 +5,6 @@ import github.mrlrf.Services.interfaces.PaperService;
 import github.mrlrf.model.DblpConference;
 import github.mrlrf.model.Paper;
 import github.mrlrf.utils.HttpClientUtil;
-import github.mrlrf.utils.TranslateUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +13,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 爬取dblp上论文的Controller
@@ -56,10 +58,13 @@ public class DblpController {
                     Element title = data.select("span.title").first();
                     Element href = data.select("a:containsOwn([contents])").first();
 
-                    String titleCh = TranslateUtil.en2chs(title.html());
-                    String conferenceUrl = href.attr("href");
+                    String conferenceUrl = "";
+                    if (href != null) {
+                        conferenceUrl = href.attr("href");
+                    }
+                    //String titleCh = TranslateUtil.en2chs(title.html());
 
-                    DblpConference dblpConference = new DblpConference(key, title.html(), titleCh, conferenceUrl, authorList);
+                    DblpConference dblpConference = new DblpConference(key, title.html(), "", conferenceUrl, authorList);
                     conferences.add(dblpConference);
 
                 }
@@ -90,13 +95,13 @@ public class DblpController {
                         .select("a").first().attr("href");
                 Element paperData = paper.select("div.data").first();
                 String paper_name = paperData.select("span.title").first().html();
-                String paper_namech = TranslateUtil.en2chs(paper_name);
+                //String paper_namech = TranslateUtil.en2chs(paper_name);
                 String paperPage = "";
                 if (paperData.select("span[itemprop=pagination]") != null) {
                     paperPage = paperData.select("span[itemprop=pagination]").first().html();
                 }
 
-                paperList.add(new Paper(conference_id, paper_name, paper_namech, paperPage, paper_url));
+                paperList.add(new Paper(conference_id, paper_name, "", paperPage, paper_url));
             }
         } catch (IOException e) {
             e.printStackTrace();
