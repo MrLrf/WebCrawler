@@ -42,19 +42,23 @@ public class PageController {
         urls.put("SIGMOD", "http://dblp.uni-trier.de/db/conf/sigmod/");
         List<DblpConference> conferences = conferenceSpider(urls);
 
+        int index = 1;
         Iterator<DblpConference> conferenceIterator = conferences.iterator();
         while (conferenceIterator.hasNext()) {
+            System.out.println("conference:" + index++);
             DblpConference dblpConference = conferenceIterator.next();
-            System.out.println(dblpConference);
+            //System.out.println(dblpConference);
             dblpConferenceService.insertConference(dblpConference);
 
             List<Paper> papers = paperSpider(dblpConference.getConference_id(), dblpConference.getContent_url());
 
             System.out.println();
+            int paperIndex = 1;
             Iterator<Paper> paperIterator = papers.iterator();
             while (paperIterator.hasNext()) {
+                System.out.println("paper:" + paperIndex++);
                 Paper paper = paperIterator.next();
-                System.out.println(paper);
+                //System.out.println(paper);
                 paperService.insertPaper(paper);
             }
 
@@ -70,5 +74,10 @@ public class PageController {
     @RequestMapping("/login")
     public String login() {
         return "/login";
+    }
+
+    @RequestMapping("/tables")
+    public String tables() {
+        return "/tables";
     }
 }

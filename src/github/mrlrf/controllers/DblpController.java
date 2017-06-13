@@ -45,10 +45,10 @@ public class DblpController {
                 Document document = Jsoup.parse(result);
                 Elements datas = document.select("div.data");
 
-                System.out.println(url);
-                int index = 0;
+                //System.out.println(url);
+                //int index = 0;
                 for (Element data : datas) {
-                    System.out.println(index++);
+                    //System.out.println(index++);
                     List<String> authorList = new ArrayList<>();
                     Elements authors = data.select("span[itemprop=author]");
                     for (Element author : authors) {
@@ -90,15 +90,19 @@ public class DblpController {
 
             Elements papers = document.select("li.entry.inproceedings");
             for (Element paper : papers) {
-                String paper_url = paper.select("li.drop-down").first()
-                        .select("div.head").first()
-                        .select("a").first().attr("href");
+                Element paperA = paper.select("li.drop-down").first()
+                        .select("div.head").first().select("a").first();
+                String paper_url = "";
+                if (paperA != null) {
+                    paper_url = paperA.attr("href");
+                }
                 Element paperData = paper.select("div.data").first();
                 String paper_name = paperData.select("span.title").first().html();
                 //String paper_namech = TranslateUtil.en2chs(paper_name);
                 String paperPage = "";
-                if (paperData.select("span[itemprop=pagination]") != null) {
-                    paperPage = paperData.select("span[itemprop=pagination]").first().html();
+                Element pagination = paperData.select("span[itemprop=pagination]").first();
+                if (pagination != null) {
+                    paperPage = pagination.html();
                 }
 
                 paperList.add(new Paper(conference_id, paper_name, "", paperPage, paper_url));
