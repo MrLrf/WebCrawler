@@ -2,6 +2,9 @@ package github.mrlrf.Services.interfaces;
 
 import github.mrlrf.model.Paper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 类的描述
  *
@@ -10,7 +13,7 @@ import github.mrlrf.model.Paper;
  */
 public interface PaperService {
 
-    //List<DblpConference> getConference();
+    List<Map<String, String>> getPaper();
 
     int insertPaper(Paper paper);
 }

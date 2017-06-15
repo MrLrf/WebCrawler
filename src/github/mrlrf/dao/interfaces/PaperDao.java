@@ -4,6 +4,7 @@ import github.mrlrf.model.Paper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类的描述
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository
 public interface PaperDao {
 
-    List<Paper> getPaper();
+    List<Map<String, String>> getPaper();
 
     int insertPaper(Paper paper);
 }

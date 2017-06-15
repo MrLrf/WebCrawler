@@ -6,6 +6,9 @@ import github.mrlrf.model.Paper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 类的描述
  *
@@ -18,7 +21,14 @@ public class PaperServiceImpl implements PaperService {
     private PaperDao paperDao;
 
     @Override
+    public List<Map<String, String>> getPaper() {
+        return paperDao.getPaper();
+    }
+
+    @Override
     public int insertPaper(Paper paper) {
         return paperDao.insertPaper(paper);
     }
+
+
 }
