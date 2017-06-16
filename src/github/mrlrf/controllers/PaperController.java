@@ -1,11 +1,13 @@
 package github.mrlrf.controllers;
 
 import github.mrlrf.Services.interfaces.PaperService;
+import github.mrlrf.model.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +24,21 @@ public class PaperController {
     private PaperService paperService;
 
     @RequestMapping("/getAllPaper")
-    public @ResponseBody List<Map<String, String>> getAllPaper () {
-        //ModelAndView model = new ModelAndView();
+    @ResponseBody
+    public ResultData getAllPaper (HttpServletRequest request, String page, String rows) {
+        ResultData resultData = new ResultData();
 
-        List<Map<String, String>> papers = paperService.getPaper();
+        int realPage = Integer.parseInt(page);
+        int realRows = Integer.parseInt(rows);
+        List<Map<String, String>> papers = paperService.getPaperPage(realPage, realRows);
 
-        return papers;
+        resultData.setData(papers);
+        return resultData;
+    }
+
+    @RequestMapping("/spiderByUrl")
+    @ResponseBody
+    public ResultData spiderByUrl (HttpServletRequest request, String url) {
+
     }
 }

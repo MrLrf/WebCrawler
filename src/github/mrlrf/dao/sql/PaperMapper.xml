@@ -19,8 +19,10 @@
     <!--
         根据id查询得到一个user对象
      -->
-    <select id="getPaper" resultType="java.util.Map">
-        select * from dblp_paper limit 10
+    <select id="getPaperPage" resultType="java.util.Map">
+        SELECT a.`paper_name`,a.`paper_url`,b.`conference_title` FROM dblp_paper AS a
+        LEFT JOIN dblp_conference AS b ON a.`conference_id`=b.`conference_id`
+        ORDER BY b.`conference_title` DESC, a.`paper_name` LIMIT #{0}, #{1}
     </select>
 
     <insert id="insertPaper" parameterType="github.mrlrf.model.Paper">

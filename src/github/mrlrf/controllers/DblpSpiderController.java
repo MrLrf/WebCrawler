@@ -24,15 +24,16 @@ import java.util.Map;
  * @Author lirf
  * @Date 2017/6/11 14:52
  */
-public class DblpController {
+public class DblpSpiderController {
 
     @Autowired
     private DblpConferenceService dblpConferenceService;
     @Autowired
     private PaperService paperService;
 
-    /*
+    /**
      * 爬取会议
+     * @param urls Map: Key(会议名), Value(URL)
      */
     public static List<DblpConference> conferenceSpider(Map<String, String> urls) {
         //String url = "http://dblp.uni-trier.de/db/conf/recsys/";
@@ -77,8 +78,10 @@ public class DblpController {
         return conferences;
     }
 
-    /*
+    /**
      * 爬取论文
+     * @param conference_id 会议ID
+     * @param url 会议URL
      */
     public static List<Paper> paperSpider(String conference_id, String url) {
         //String url = "http://dblp.uni-trier.de/db/conf/recsys/recsys2016.html.";

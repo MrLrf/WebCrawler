@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface PaperService {
 
-    List<Map<String, String>> getPaper();
+    List<Map<String, String>> getPaperPage(int page, int rows);
 
     int insertPaper(Paper paper);
 }

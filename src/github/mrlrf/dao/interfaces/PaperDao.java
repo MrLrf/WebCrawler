@@ -15,7 +15,7 @@ import java.util.Map;
 @Repository
 public interface PaperDao {
 
-    List<Map<String, String>> getPaper();
+    List<Map<String, String>> getPaperPage(int startIndex, int rows);
 
     int insertPaper(Paper paper);
 }

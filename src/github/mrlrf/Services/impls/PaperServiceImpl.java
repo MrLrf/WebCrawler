@@ -21,8 +21,9 @@ public class PaperServiceImpl implements PaperService {
     private PaperDao paperDao;
 
     @Override
-    public List<Map<String, String>> getPaper() {
-        return paperDao.getPaper();
+    public List<Map<String, String>> getPaperPage(int page, int rows) {
+        int startIndex = (page-1) * rows;
+        return paperDao.getPaperPage(startIndex, rows);
     }
 
     @Override

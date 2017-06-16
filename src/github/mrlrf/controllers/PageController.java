@@ -13,8 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static github.mrlrf.controllers.DblpController.conferenceSpider;
-import static github.mrlrf.controllers.DblpController.paperSpider;
+import static github.mrlrf.controllers.DblpSpiderController.conferenceSpider;
+import static github.mrlrf.controllers.DblpSpiderController.paperSpider;
 
 /**
  * 页面controller,原生的springMVC框架无法直接访问WEB-INF里面的页面
@@ -79,5 +79,10 @@ public class PageController {
     @RequestMapping("/tables")
     public String tables() {
         return "/tables";
+    }
+
+    @RequestMapping("/papers")
+    public String papers() {
+        return "/papers";
     }
 }
