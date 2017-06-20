@@ -35,10 +35,10 @@ public class PaperController {
         resultData.setData(papers);
         return resultData;
     }
-
-    @RequestMapping("/spiderByUrl")
-    @ResponseBody
-    public ResultData spiderByUrl (HttpServletRequest request, String url) {
-
-    }
+//
+//    @RequestMapping("/spiderByUrl")
+//    @ResponseBody
+//    public ResultData spiderByUrl (HttpServletRequest request, String url) {
+//
+//    }
 }

@@ -15,7 +15,9 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/out/production/WebCrawler" />
+    <output-test url="file://$MODULE_DIR$/out/test/WebCrawler" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
@@ -27,7 +29,6 @@
     <orderEntry type="library" name="apachecommons" level="project" />
     <orderEntry type="library" name="j2ee" level="project" />
     <orderEntry type="library" name="misc" level="project" />
-    <orderEntry type="library" name="tomact" level="project" />
     <orderEntry type="library" name="jackson" level="project" />
     <orderEntry type="module-library">
       <library name="JUnit4">

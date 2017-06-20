@@ -13,7 +13,6 @@
           <element id="library" level="project" name="springweb" />
           <element id="library" level="project" name="j2ee" />
           <element id="library" level="project" name="misc" />
-          <element id="library" level="project" name="tomact" />
           <element id="library" level="project" name="jackson" />
           <element id="library" level="module" name="JUnit4" module-name="WebCrawler" />
           <element id="library" level="project" name="httpclient" />
