@@ -1,6 +1,5 @@
 package github.mrlrf.utils;
 
-import github.mrlrf.crawlercore.Weibo;
 import org.apache.commons.httpclient.HttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +15,7 @@ import java.text.MessageFormat;
  * @Author lirf
  * @Date 2017/6/10 18:29
  */
-public class TranslateUtil {
+public class TranslateUtilByGoogle {
     protected static final String URL_TEMPLATE = "http://translate.google.com/?langpair={0}&text={1}";
     protected static final String ID_RESULTBOX = "result_box";
 
@@ -47,7 +46,7 @@ public class TranslateUtil {
                     URLEncoder.encode(text, ENCODING));
 
             // connect & download html
-            String is = Weibo.getHTML(url);
+            String is = HttpClientUtil.getHTML(url);
 
             // parse html by Jsoup
             doc = Jsoup.parse(is);

@@ -5,6 +5,7 @@ import github.mrlrf.Services.interfaces.PaperService;
 import github.mrlrf.model.DblpConference;
 import github.mrlrf.model.Paper;
 import github.mrlrf.utils.HttpClientUtil;
+import github.mrlrf.utils.TranslateUtilByBaidu;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -108,7 +109,9 @@ public class DblpSpiderController {
                     paperPage = pagination.html();
                 }
 
-                paperList.add(new Paper(conference_id, paper_name, "", paperPage, paper_url));
+                String paper_namech = TranslateUtilByBaidu.en2chs(paper_name);
+
+                paperList.add(new Paper(conference_id, paper_name, paper_namech, paperPage, paper_url));
             }
         } catch (IOException e) {
             e.printStackTrace();

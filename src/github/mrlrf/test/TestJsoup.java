@@ -2,7 +2,7 @@ package github.mrlrf.test;
 
 import github.mrlrf.model.Paper;
 import github.mrlrf.utils.HttpClientUtil;
-import github.mrlrf.utils.TranslateUtil;
+import github.mrlrf.utils.TranslateUtilByGoogle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,7 +37,7 @@ public class TestJsoup {
             Element title = data.select("span.title").first();
             Element href = data.select("a:containsOwn([contents])").first();
 
-            System.out.println(TranslateUtil.en2chs(title.html()));
+            System.out.println(TranslateUtilByGoogle.en2chs(title.html()));
             System.out.println(href.attr("href"));
             System.out.println();
         }
@@ -62,7 +62,7 @@ public class TestJsoup {
                     .select("a").first().attr("href");
             Element paperData = paper.select("div.data").first();
             String paper_name = paperData.select("span.title").first().html();
-            String paper_namech = TranslateUtil.en2chs(paper_name);
+            String paper_namech = TranslateUtilByGoogle.en2chs(paper_name);
             String paper_page = paperData.select("span[itemprop=pagination]").first().html();
 
             Paper paper1 = new Paper("",paper_name, paper_namech, paper_page, paper_url);

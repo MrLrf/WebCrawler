@@ -2,7 +2,7 @@ package github.mrlrf.test;
 
 import github.mrlrf.model.DblpConference;
 import github.mrlrf.utils.HttpClientUtil;
-import github.mrlrf.utils.TranslateUtil;
+import github.mrlrf.utils.TranslateUtilByGoogle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,7 +43,7 @@ public class PapersSpider {
             Element title = data.select("span.title").first();
             Element href = data.select("a:containsOwn([contents])").first();
 
-            String titlech = TranslateUtil.en2chs(title.text());
+            String titlech = TranslateUtilByGoogle.en2chs(title.text());
             String conferenceurl = href.attr("href");
             dblpConferences.add(new DblpConference("recsys", title.html(), titlech, conferenceurl, authorList));
 

@@ -29,6 +29,9 @@ import java.net.URISyntaxException;
  * @Date 2017/6/10 18:55
  */
 public class HttpClientUtil {
+    protected static final int SOCKET_TIMEOUT = 10000; // 10S
+    protected static final String GET = "GET";
+
     /**
      * 默认方法
      * @param url 获取的url地址

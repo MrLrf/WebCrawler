@@ -72,19 +72,31 @@
                                 <div class="clearfix"></div>
                             </div>
 
-                            <form class="x_content">
-                                <form class="form-horizontal form-label-left input_mask">
-                                    <span class="control-label col-md-3 col-sm-3 col-xs-12" style="font-size: 17px">会议URL:</span>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="margin-left: -155px">
-                                        <input type="text" id="name" ng-model="conferenceUrl" required="required" class="form-control col-md-7 col-xs-12" />
-                                        <span style="color: black">*此处填写会议URL链接, 比如<a style="color: red" href="http://dblp.uni-trier.de/db/conf/recsys/" target="view_window">http://dblp.uni-trier.de/db/conf/recsys/</a></span>
+                            <div class="x_content">
+                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                                    <div class="form-group">
+                                        <span style="font-size: 15px" class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">会议名:<span class="required">*</span>
+                                        </span>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" ng-model="conferenceName" required="required" class="form-control col-md-7 col-xs-12">
+                                            <span style="color: black">*此处填写会议名, 比如<span style="color: red">recsys</span></span>
+                                        </div>
                                     </div>
-                                    <span class="control-label col-md-3 col-sm-3 col-xs-12" style="font-size: 17px">会议URL:</span>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="margin-left: -155px">
-                                        <input type="text" id="url" ng-model="conferenceUrl" required="required" class="form-control col-md-7 col-xs-12" />
-                                        <span style="color: black">*此处填写会议URL链接, 比如<a style="color: red" href="http://dblp.uni-trier.de/db/conf/recsys/" target="view_window">http://dblp.uni-trier.de/db/conf/recsys/</a></span>
+                                    <div class="form-group">
+                                        <span style="font-size: 15px" class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">会议URL:<span class="required">*</span>
+                                        </span>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" ng-model="conferenceUrl" required="required" class="form-control col-md-7 col-xs-12">
+                                            <span style="color: black">*此处填写会议URL链接, 比如<a style="color: red" href="http://dblp.uni-trier.de/db/conf/recsys/" target="view_window">http://dblp.uni-trier.de/db/conf/recsys/</a></span>
+                                        </div>
                                     </div>
-                                    <div><button type="submit" ng-click="spiderByUrl()" class="btn btn-success">爬取</button></div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                            <button type="submit" ng-click="spiderByUrl()" class="btn btn-success">爬取</button>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>
@@ -109,9 +121,11 @@
                                 <table id="datatable" class="table table-striped table-bordered">
                                     <thead>
                                     <tr>
-                                        <th style="width: 40%">会议名称</th>
-                                        <th style="width: 40%">论文名称</th>
-                                        <th style="width: 20%">论文URL</th>
+                                        <th style="width: 20%">会议名称</th>
+                                        <th style="width: 30%">论文名称</th>
+                                        <th style="width: 30%">论文名称(中文)</th>
+                                        <th style="width: 5%">页码</th>
+                                        <th style="width: 15%">论文URL</th>
                                     </tr>
                                     </thead>
 
@@ -119,6 +133,8 @@
                                     <tr ng-repeat="paper in papers">
                                         <td>{{paper.conference_title}}</td>
                                         <td>{{paper.paper_name}}</td>
+                                        <td>{{paper.paper_namech}}</td>
+                                        <td>{{paper.page_num}}</td>
                                         <td><a href="{{paper.paper_url}}" target="view_window">{{paper.paper_url}}</a>
                                         </td>
                                     </tr>
@@ -184,7 +200,16 @@
         //输入URL后点击爬取
         $scope.spiderByUrl = function () {
             $.ajax({
-                url: ""
+                url: "/paper/spiderByUrl.form",
+                type: "post",
+                dataType: "json",
+                data: {
+                    name: $scope.conferenceName,
+                    url: $scope.conferenceUrl
+                },
+                success:function (data) {
+                    alert(data.result);
+                }
             })
         };
 
