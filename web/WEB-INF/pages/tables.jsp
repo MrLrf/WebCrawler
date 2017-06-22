@@ -140,6 +140,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                                <span style="font-size: 15px">当前页码:</span>
+                                <input type="text" ng-model="page" ng-change="goToPage()" style="font-size: 15px" />
                                 <span style="font-size: 15px">每页条数:</span>
                                 <select style="font-size: 15px; margin-left: 15px" ng-change="changeRows(this)" ng-model="rows">
                                     <option value="10">10</option>
@@ -211,6 +213,10 @@
                     alert(data.result);
                 }
             })
+        };
+
+        $scope.goToPage = function (data) {
+            $scope.refresh();
         };
 
         //选择每页条数
