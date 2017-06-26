@@ -85,4 +85,9 @@ public class PageController {
     public String papers() {
         return "/papers";
     }
+
+    @RequestMapping("/uploadForm")
+    public String uploadForm() {
+        return "/fkit/uploadForm";
+    }
 }
