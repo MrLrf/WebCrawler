@@ -33,13 +33,13 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
-    <!-- 开启事务管理 -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
     <bean id="transactionManager"
-    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+    <!-- 开启事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- mybatis    end -->
 
     <!--ViewResolver 视图解析器-->
