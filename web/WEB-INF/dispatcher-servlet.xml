@@ -51,31 +51,31 @@
     </bean>
 
     <!-- 用于将对象转换为 JSON  -->
-    <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/plain;charset=UTF-8</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <ref bean="stringConverter" />
-                <ref bean="jsonConverter" />
-            </list>
-        </property>
-    </bean>
+    <!--<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">-->
+        <!--<property name="supportedMediaTypes">-->
+            <!--<list>-->
+                <!--<value>text/plain;charset=UTF-8</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
+        <!--<property name="messageConverters">-->
+            <!--<list>-->
+                <!--<ref bean="stringConverter" />-->
+                <!--<ref bean="jsonConverter" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="utf8Charset" class="java.nio.charset.Charset" factory-method="forName">
-        <constructor-arg value="UTF-8"/>
-    </bean>
-    <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                <constructor-arg ref="utf8Charset"/>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <!--<bean id="utf8Charset" class="java.nio.charset.Charset" factory-method="forName">-->
+        <!--<constructor-arg value="UTF-8"/>-->
+    <!--</bean>-->
+    <!--<mvc:annotation-driven>-->
+        <!--<mvc:message-converters>-->
+            <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+                <!--<constructor-arg ref="utf8Charset"/>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
 </beans>
