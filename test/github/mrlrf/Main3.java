@@ -1,4 +1,4 @@
-package github.mrlrf.test;
+package github.mrlrf;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

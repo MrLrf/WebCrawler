@@ -1,4 +1,4 @@
-package github.mrlrf.test;
+package github.mrlrf;
 
 import github.mrlrf.model.Paper;
 import github.mrlrf.utils.HttpClientUtil;

@@ -13,6 +13,12 @@
     <!-- 开启注解 -->
     <mvc:annotation-driven/>
 
+    <!--MongoDB配置-->
+    <bean id="mongodb" class="github.mrlrf.utils.MongoDBUtil" init-method="init">
+        <property name="ip" value="127.0.0.1"/>
+        <property name="port" value="27017"/>
+    </bean>
+
     <!-- mybatis   start -->
     <!-- 数据源-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

@@ -13,10 +13,7 @@ import org.apache.http.cookie.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import org.apache.http.impl.cookie.BestMatchSpecFactory;
-import org.apache.http.impl.cookie.BrowserCompatSpec;
-import org.apache.http.impl.cookie.BrowserCompatSpecFactory;
-import org.apache.http.protocol.HttpContext;
+import org.apache.http.impl.cookie.*;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -25,11 +22,20 @@ import java.net.URISyntaxException;
 /**
  * HttpClient工具类
  *
- * @Author lirf
+ * @author lirf
  * @Date 2017/6/10 18:55
  */
 public class HttpClientUtil {
-    protected static final int SOCKET_TIMEOUT = 10000; // 10S
+
+    /**
+     * connect超时时间
+     */
+    private static final int CONNECT_TIMEOUT = 5000;
+
+    /**
+     * socket超时时间
+     */
+    private static final int SOCKET_TIMEOUT = 5000; // 10S
     protected static final String GET = "GET";
 
     /**
@@ -37,11 +43,11 @@ public class HttpClientUtil {
      * @param url 获取的url地址
      * @return String 获取的HTML
      */
-    public static String getHTML(String url) throws ClientProtocolException, IOException {
+    public static String getHTML(String url) {
         String html = "";
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(5000)   //socket超时
-                .setConnectTimeout(5000)   //connect超时
+                .setSocketTimeout(SOCKET_TIMEOUT)   //socket超时
+                .setConnectTimeout(CONNECT_TIMEOUT)   //connect超时
                 .build();
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setDefaultRequestConfig(requestConfig)
@@ -49,7 +55,6 @@ public class HttpClientUtil {
         HttpGet httpGet = new HttpGet(url);
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            //html[0] = String.valueOf(response.getStatusLine().getStatusCode());
             html = EntityUtils.toString(response.getEntity(), "utf-8");
         } catch (IOException e) {
             System.out.println("----------Connection timeout--------");
@@ -67,14 +72,10 @@ public class HttpClientUtil {
         //采用用户自定义的cookie策略
         HttpHost proxy = new HttpHost(hostName, port);
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-        CookieSpecProvider cookieSpecProvider = new CookieSpecProvider() {
-            public CookieSpec create(HttpContext context) {
-                return new BrowserCompatSpec() {
-                    @Override
-                    public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
-                        //Oh, I am easy...
-                    }
-                };
+        CookieSpecProvider cookieSpecProvider = context -> new BrowserCompatSpec() {
+            @Override
+            public void validate(Cookie cookie, CookieOrigin origin) throws MalformedCookieException {
+                //Oh, I am easy...
             }
         };
         Registry<CookieSpecProvider> r = RegistryBuilder
@@ -85,8 +86,8 @@ public class HttpClientUtil {
                 .build();
         RequestConfig requestConfig = RequestConfig.custom()
                 .setCookieSpec("easy")
-                .setSocketTimeout(5000) //socket超时
-                .setConnectTimeout(5000) //connect超时
+                .setSocketTimeout(SOCKET_TIMEOUT) //socket超时
+                .setConnectTimeout(CONNECT_TIMEOUT) //connect超时
                 .build();
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setDefaultCookieSpecRegistry(r)
@@ -115,8 +116,8 @@ public class HttpClientUtil {
         String html = "null";
         DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(5000) //socket超时
-                .setConnectTimeout(5000) //connect超时
+                .setSocketTimeout(SOCKET_TIMEOUT) //socket超时
+                .setConnectTimeout(CONNECT_TIMEOUT) //connect超时
                 .build();
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setRoutePlanner(routePlanner)

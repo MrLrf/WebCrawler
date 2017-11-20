@@ -1,4 +1,4 @@
-package github.mrlrf.test;
+package github.mrlrf;
 
 import github.mrlrf.Services.interfaces.ZhihuQuestionService;
 import org.apache.log4j.Logger;

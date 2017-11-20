@@ -1,4 +1,4 @@
-package github.mrlrf.test;
+package github.mrlrf;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

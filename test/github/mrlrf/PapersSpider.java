@@ -1,4 +1,4 @@
-package github.mrlrf.test;
+package github.mrlrf;
 
 import github.mrlrf.model.DblpConference;
 import github.mrlrf.utils.HttpClientUtil;
@@ -8,10 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * dblp会议爬取
@@ -23,11 +20,7 @@ public class PapersSpider {
     public static void main(String[] args) throws Exception {
         String url = "http://dblp.uni-trier.de/db/conf/recsys/";
         String result = null;
-        try {
-            result = HttpClientUtil.getHTML(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        result = HttpClientUtil.getHTML(url);
 
         Document document = Jsoup.parse(result);
         Elements datas = document.select("div.data");
